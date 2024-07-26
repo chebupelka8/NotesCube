@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "notescube"
+version = "0.1.0"
+description = ""
+authors = ["chebupelka8 <stpzamyatin@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.1"
+uvicorn = "^0.30.3"
+sqlalchemy = "^2.0.31"
+aiosqlite = "^0.20.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
