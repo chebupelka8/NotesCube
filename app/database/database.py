@@ -1,16 +1,12 @@
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from .abstract_database import AbstractDataBase
 
-from models import AbstractModel
-from core import DATABASE_URL
+from models import UserModel
 
 
-class DataBase:
-    engine = create_async_engine(DATABASE_URL, echo=True) # type: ignore
-    session = async_sessionmaker(engine)
+class DataBase(AbstractDataBase):
 
     @classmethod
-    async def create_all_tables(cls) -> None:
-        async with cls.engine.connect() as connection:
-            await connection.run_sync(
-                AbstractModel.metadata.create_all
-            )
+    async def add_user(cls, user: UserModel) -> None:
+        async with cls.session() as session:
+            async with session.begin():
+                session.add(user)

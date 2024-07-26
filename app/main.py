@@ -3,13 +3,13 @@ import uvicorn
 
 from contextlib import asynccontextmanager
 
-from database import DataBase
+from database import AbstractDataBase
 from routers import users_router
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    await DataBase.create_all_tables()
+    await AbstractDataBase.create_all_tables()
     yield
     
 
