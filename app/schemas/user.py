@@ -5,7 +5,7 @@ from typing import Optional
 
 class CreateUser(BaseModel):
     first_name: str
-    last_name: Optional[str]
+    last_name: Optional[str] = None
 
 
 class UserScheme(CreateUser):

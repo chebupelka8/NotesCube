@@ -1,4 +1,4 @@
-from .abstract_database import AbstractDataBase
+from database import AbstractDataBase
 
 from typing import Annotated, Optional
 from sqlalchemy import select
@@ -9,7 +9,7 @@ from schemas import CreateUser, UserScheme
 from core import id_range
 
 
-class DataBase(AbstractDataBase):
+class UsersRepository(AbstractDataBase):
 
     @classmethod
     async def add_user(cls, user: CreateUser) -> UserScheme:
@@ -32,4 +32,3 @@ class DataBase(AbstractDataBase):
             print(result)
         
         return result
- 
