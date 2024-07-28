@@ -18,6 +18,7 @@ class DataBase(AbstractDataBase):
                 new_user = UserModel(**user.model_dump())
                 session.add(new_user)
 
+                print(new_user)
                 await session.flush()
                 print(new_user)
                 added_user_id = new_user.id

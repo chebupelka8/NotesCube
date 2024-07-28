@@ -1,4 +1,5 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import inspect
 
 from prettytable import PrettyTable
 
@@ -11,9 +12,14 @@ class AbstractModel(DeclarativeBase):
 
         preview = PrettyTable([
             f"{self.__class__.__name__}({self.__tablename__})",
-            *dumped.keys()
+            *dumped.keys(),
+            "condition"
         ])
-        preview.add_row(["", *dumped.values()])
+
+        insp = inspect(self)
+        conditions = filter(lambda attr: getattr(insp, attr), ["transient", "pending", "persistent", "deleted", "detached"])
+
+        preview.add_row(["", *dumped.values(), "\n".join(conditions)])
 
         return preview.get_string()
     
