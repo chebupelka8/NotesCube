@@ -1,5 +1,7 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
+from fastapi import HTTPException
+
 from models import AbstractModel
 from core import DATABASE_URL
 
@@ -9,9 +11,19 @@ class AbstractDataBase:
     session = async_sessionmaker(engine)
 
     @classmethod
-    async def create_all_tables(cls) -> None:
+    async def run_metadata_method(cls, method: str) -> None:
+        if not hasattr(AbstractModel.metadata, method):
+            raise HTTPException(status_code=500, detail=f"Method '{method}' not found.")
+
         async with cls.engine.connect() as connection:
-            print(AbstractModel.metadata.tables)
             await connection.run_sync(
-                AbstractModel.metadata.create_all
+                getattr(AbstractModel.metadata, method)
             )
+            
+    @classmethod
+    async def create_all_tables(cls) -> None:
+        await cls.run_metadata_method("create_all")
+
+    @classmethod
+    async def drop_all_tables(cls) -> None:
+        await cls.run_metadata_method("drop_all")
