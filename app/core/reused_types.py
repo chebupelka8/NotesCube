@@ -14,4 +14,8 @@ type utc_creation_date = Annotated[
     datetime, mapped_column(default=datetime.utcnow)
 ]
 
+type utc_updated_date = Annotated[
+    datetime, mapped_column(onupdate=datetime.utcnow, default=datetime.utcnow)
+]
+
 type id_range = Annotated[int, Field(gt=0)]

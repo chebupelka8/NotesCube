@@ -3,7 +3,7 @@ from typing import Optional, TYPE_CHECKING
 from sqlalchemy.orm import Mapped
 from .abstract import AbstractModel
 
-from core import utc_creation_date, string64
+from core import utc_creation_date, string64, utc_updated_date
 
 
 class UserModel(AbstractModel):
@@ -12,3 +12,4 @@ class UserModel(AbstractModel):
     first_name: Mapped[string64]
     last_name: Mapped[Optional[string64]] 
     created_at: Mapped[utc_creation_date] 
+    updated_at: Mapped[utc_updated_date]

@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 
 from typing import Annotated
 
-from schemas import CreateUser
+from schemas import UserData
 from repositories import UsersRepository
 from core import id_range, Converter
 
@@ -14,8 +14,8 @@ router = APIRouter(
 
 
 @router.post("/new")
-async def new_user(user: Annotated[CreateUser, Depends()]):
-    created_user = await UsersRepository.add_user(CreateUser(**user.model_dump()))
+async def new_user(user: Annotated[UserData, Depends()]):
+    created_user = await UsersRepository.add_user(UserData(**user.model_dump()))
 
     return {
         "status": 200,

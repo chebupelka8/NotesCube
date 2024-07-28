@@ -4,7 +4,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import mapped_column, Mapped
 
 from .abstract import AbstractModel
-from core import string64, utc_creation_date
+from core import string64, utc_creation_date, utc_updated_date
 
 
 class NoteModel(AbstractModel):
@@ -14,3 +14,4 @@ class NoteModel(AbstractModel):
     title: Mapped[string64]
     description: Mapped[Optional[str]]
     created_at: Mapped[utc_creation_date] 
+    updated_at: Mapped[utc_updated_date]

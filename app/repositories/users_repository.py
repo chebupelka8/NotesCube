@@ -1,10 +1,10 @@
 from database import AbstractDataBase
 
 from typing import Annotated, Optional
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from models import UserModel
-from schemas import CreateUser, UserScheme
+from schemas import UserData, UserScheme
 
 from core import id_range
 
@@ -12,7 +12,7 @@ from core import id_range
 class UsersRepository(AbstractDataBase):
 
     @classmethod
-    async def add_user(cls, user: CreateUser) -> UserScheme:
+    async def add_user(cls, user: UserData) -> UserScheme:
         async with cls.session() as session:
             async with session.begin():
                 new_user = UserModel(**user.model_dump())
@@ -32,3 +32,17 @@ class UsersRepository(AbstractDataBase):
             print(result)
         
         return result
+    
+    @classmethod
+    async def update_user_data(cls, user_id: int, data: UserData) -> UserScheme:
+        async with cls.session() as session:
+            async with session.begin():
+                statement = (
+                    update(UserModel)
+                        .where(UserModel.id == user_id)
+                        .values(**data.model_dump())
+                )
+
+                await session.execute(statement)
+        
+        return UserScheme(id=user_id, **data.model_dump())
