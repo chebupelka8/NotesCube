@@ -19,6 +19,7 @@ class DataBase(AbstractDataBase):
                 session.add(new_user)
 
                 await session.flush()
+                print(new_user)
                 added_user_id = new_user.id
         
         return UserScheme(id=added_user_id, **user.model_dump())
@@ -27,6 +28,7 @@ class DataBase(AbstractDataBase):
     async def get_user_by_id(cls, user_id: id_range) -> Optional[UserModel]:
         async with cls.session() as session:
             result = await session.get(UserModel, user_id)
+            print(result)
         
         return result
  
