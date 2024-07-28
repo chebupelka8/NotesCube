@@ -10,7 +10,7 @@ from core import string64, utc_creation_date
 class NoteModel(AbstractModel):
     __tablename__ = "notes"
 
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.user_id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     title: Mapped[string64]
     description: Mapped[Optional[str]]
     created_at: Mapped[utc_creation_date] 

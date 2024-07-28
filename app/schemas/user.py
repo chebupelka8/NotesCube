@@ -1,8 +1,12 @@
 from pydantic import BaseModel
 
+from typing import Optional
 
-class UserScheme(BaseModel):
-    id: int
-    user_id: int
+
+class CreateUser(BaseModel):
     first_name: str
-    last_name: str
+    last_name: Optional[str]
+
+
+class UserScheme(CreateUser):
+    id: int
