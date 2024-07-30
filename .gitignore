@@ -3,7 +3,7 @@ database.db
 .vscode/
 .idea/
 
-app/frontend/node_modules
+node_modules
 
 __pycache__/
 **/__pycache__/

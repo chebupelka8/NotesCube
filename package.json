@@ -1,9 +1,9 @@
 {
-  "name": "frontend",
+  "name": "notescube",
   "version": "1.0.0",
-  "main": "script.js",
+  "main": "app/frontend/script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
