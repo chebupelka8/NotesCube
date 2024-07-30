@@ -1,8 +1,10 @@
 from database import AbstractDataBase
 from fastapi import HTTPException
 
+from functools import reduce
+
 from typing import Annotated, Optional
-from sqlalchemy import select, update
+from sqlalchemy import select, update, or_
 
 from models import UserModel
 from schemas import UserData, UserScheme
@@ -19,9 +21,7 @@ class UsersRepository(AbstractDataBase):
                 new_user = UserModel(**user.model_dump())
                 session.add(new_user)
 
-                print(new_user)
                 await session.flush()
-                print(new_user)
                 added_user_id = new_user.id
         
         return UserScheme(id=added_user_id, **user.model_dump())
@@ -55,7 +55,6 @@ class UsersRepository(AbstractDataBase):
 
                 user.first_name = data.first_name
                 user.last_name = data.last_name
-                print(user)
         
         return Converter.convert_to_user_scheme(user)
     
@@ -64,11 +63,15 @@ class UsersRepository(AbstractDataBase):
         async with cls.session() as session:
             statement = (
                 select(UserModel)
-                    .where((UserModel.first_name + UserModel.last_name).contains(query))
+                    .where(or_(
+                        UserModel.first_name.contains(query),
+                        UserModel.last_name.contains(query)
+                    ))
                     .order_by(UserModel.id)
             )
 
             result = await session.execute(statement)
+
             return list(
                 map(
                     Converter.convert_to_user_scheme, result.scalars().all()
