@@ -45,6 +45,16 @@ async def delete_user(id: id_range):
     }
 
 
+@router.get("/search")
+async def search_user(query: str):
+    found = await UsersRepository.search_user(query)
+
+    return {
+        "status": 200,
+        "found": found
+    }
+
+
 @router.get("/{id}")
 async def get_user(id: id_range):
     if (user := await UsersRepository.get_user_by_id(id)) is not None:

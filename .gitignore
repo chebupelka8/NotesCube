@@ -3,6 +3,8 @@ database.db
 .vscode/
 .idea/
 
+app/frontend/node_modules
+
 __pycache__/
 **/__pycache__/
 .env

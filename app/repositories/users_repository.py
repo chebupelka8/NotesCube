@@ -58,3 +58,19 @@ class UsersRepository(AbstractDataBase):
                 print(user)
         
         return Converter.convert_to_user_scheme(user)
+    
+    @classmethod
+    async def search_user(cls, query: str) -> list[UserScheme]:
+        async with cls.session() as session:
+            statement = (
+                select(UserModel)
+                    .where((UserModel.first_name + UserModel.last_name).contains(query))
+                    .order_by(UserModel.id)
+            )
+
+            result = await session.execute(statement)
+            return list(
+                map(
+                    Converter.convert_to_user_scheme, result.scalars().all()
+                )
+            )
