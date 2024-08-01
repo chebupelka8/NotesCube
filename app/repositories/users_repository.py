@@ -24,7 +24,6 @@ class UsersRepository(AbstractDataBase):
                 added = new_user.dump()
         
         return Converter.convert_from_orm_model_dump_to_scheme(added)
-        # return UserScheme(id=added_user_id, **user.model_dump())
     
     @classmethod
     async def get_user_by_id(cls, user_id: pydantic_types.id_range) -> Optional[UserModel]:

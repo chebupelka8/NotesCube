@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
 import models, schemas
-from pydantic import BaseModel
 
 if TYPE_CHECKING:
     from schemas import UserScheme
