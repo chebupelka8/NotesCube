@@ -1,10 +1,8 @@
 from database import AbstractDataBase
 from fastapi import HTTPException
 
-from functools import reduce
-
-from typing import Annotated, Optional
-from sqlalchemy import select, update, or_
+from typing import Optional
+from sqlalchemy import select, or_
 
 from models import UserModel
 from schemas import UserData, UserScheme

@@ -7,21 +7,25 @@ from prettytable import PrettyTable
 class AbstractModel(DeclarativeBase):
     id: Mapped[int] = mapped_column(unique=True, primary_key=True, autoincrement=True)
 
+    should_use_table_view: bool = True
+
     def __repr__(self) -> str:
         dumped = self.dump()
 
-        preview = PrettyTable([
-            f"{self.__class__.__name__}({self.__tablename__})",
-            *dumped.keys(),
-            "condition"
-        ])
+        if self.should_use_table_view:
+            insp = inspect(self)
+            conditions = filter(lambda attr: getattr(insp, attr), ["transient", "pending", "persistent", "deleted", "detached"])
 
-        insp = inspect(self)
-        conditions = filter(lambda attr: getattr(insp, attr), ["transient", "pending", "persistent", "deleted", "detached"])
+            preview = PrettyTable([
+                f"{self.__class__.__name__}({self.__tablename__})",
+                *dumped.keys(),
+                "condition"
+            ])
+            preview.add_row(["", *dumped.values(), "\n".join(conditions)])
 
-        preview.add_row(["", *dumped.values(), "\n".join(conditions)])
+            return preview.get_string()
 
-        return preview.get_string()
+        return f"{self.__class__.__name__}(__tablename__={self.__tablename__}, condition={list(conditions)}, {dumped})"
     
     @property
     def column_names(self) -> list[str]:
