@@ -12,9 +12,10 @@ class AbstractModel(DeclarativeBase):
     def __repr__(self) -> str:
         dumped = self.dump()
 
+        insp = inspect(self)
+        conditions = filter(lambda attr: getattr(insp, attr), ["transient", "pending", "persistent", "deleted", "detached"])
+
         if self.should_use_table_view:
-            insp = inspect(self)
-            conditions = filter(lambda attr: getattr(insp, attr), ["transient", "pending", "persistent", "deleted", "detached"])
 
             preview = PrettyTable([
                 f"{self.__class__.__name__}({self.__tablename__})",
