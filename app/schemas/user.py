@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 from typing import Optional
+from datetime import datetime
 
 
 class UserData(BaseModel):
@@ -10,3 +11,5 @@ class UserData(BaseModel):
 
 class UserScheme(UserData):
     id: int
+    created_at: datetime
+    updated_at: datetime

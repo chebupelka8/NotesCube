@@ -6,7 +6,7 @@ import uvicorn
 from contextlib import asynccontextmanager
 
 from database import AbstractDataBase
-from routers import users_router
+from routers import users_router, notes_router
 
 
 @asynccontextmanager
@@ -34,6 +34,8 @@ app.add_middleware(
 
 
 app.include_router(users_router)
+app.include_router(notes_router)
+
 
 @app.get("/home")
 async def home():

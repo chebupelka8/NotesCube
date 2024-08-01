@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 import models, schemas
+from pydantic import BaseModel
 
 if TYPE_CHECKING:
     from schemas import UserScheme
@@ -10,15 +11,17 @@ if TYPE_CHECKING:
 class Converter:
 
     @staticmethod
-    def convert_user_to_model(user_scheme: "UserScheme") -> "UserModel":
-        return models.UserModel(
-            **user_scheme.model_dump()
-        ) 
-
+    def convert_from_orm_model_dump_to_scheme(orm_model_dump: dict) -> "UserScheme":
+        return schemas.UserScheme(**orm_model_dump)
+    
     @staticmethod
-    def convert_to_user_scheme(user_model: "UserModel") -> "UserScheme":
-        return schemas.UserScheme(
-            id=user_model.id,
-            first_name=user_model.first_name,
-            last_name=user_model.last_name
+    def convert_from_orm_model_to_scheme(orm_model: "UserModel") -> "UserScheme":
+        return Converter.convert_from_orm_model_dump_to_scheme(
+            orm_model.dump()
+        )
+    
+    @staticmethod
+    def convert_from_scheme_to_orm_model(scheme: "UserScheme") -> "UserModel":
+        return models.UserModel(
+            **scheme.model_dump()
         )

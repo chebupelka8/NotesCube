@@ -3,13 +3,13 @@ from typing import Optional, TYPE_CHECKING
 from sqlalchemy.orm import Mapped
 from .abstract import AbstractModel
 
-from core import utc_creation_date, string64, utc_updated_date
+from core.reused_types import sqlalchemy_types
 
 
 class UserModel(AbstractModel):
     __tablename__ = "users"
 
-    first_name: Mapped[string64]
-    last_name: Mapped[Optional[string64]] 
-    created_at: Mapped[utc_creation_date] 
-    updated_at: Mapped[utc_updated_date]
+    first_name: Mapped[sqlalchemy_types.string64]
+    last_name: Mapped[Optional[sqlalchemy_types.string64]] 
+    created_at: Mapped[sqlalchemy_types.utc_creation_date] 
+    updated_at: Mapped[sqlalchemy_types.utc_updated_date]

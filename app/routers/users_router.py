@@ -4,9 +4,8 @@ from typing import Annotated
 
 from schemas import UserData
 from repositories import UsersRepository
-from core import id_range, Converter
-
-from pydantic import Field
+from core.reused_types import pydantic_types 
+from core import Converter
 
 
 router = APIRouter(
@@ -26,7 +25,7 @@ async def new_user(user: Annotated[UserData, Depends()]):
 
 
 @router.post("/edit")
-async def edit_user(id: id_range, data: Annotated[UserData, Depends()]):
+async def edit_user(id: pydantic_types.id_range, data: Annotated[UserData, Depends()]):
     result = await UsersRepository.update_user_data(id, data)
 
     return {
@@ -36,7 +35,7 @@ async def edit_user(id: id_range, data: Annotated[UserData, Depends()]):
 
 
 @router.delete("/delete")
-async def delete_user(id: id_range):
+async def delete_user(id: pydantic_types.id_range):
     result = await UsersRepository.remove_user_by_id(id)
 
     return {
@@ -56,11 +55,11 @@ async def search_user(query: str):
 
 
 @router.get("/{id}")
-async def get_user(id: id_range):
-    if (user := await UsersRepository.get_user_by_id(id)) is not None:
+async def get_user(id: pydantic_types.id_range):
+    if (user := await UsersRepository.get_user_by_id_as_scheme(id)) is not None:
         return {
             "status": 200,
-            "user": Converter.convert_to_user_scheme(user)
+            "user": user
         }
     
     else:
