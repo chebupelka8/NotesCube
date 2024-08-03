@@ -12,6 +12,6 @@ class UserData(BaseModel):
 
 
 class UserScheme(UserData):
-    id: int
+    id: pydantic_types.id_range
     created_at: datetime
     updated_at: datetime
