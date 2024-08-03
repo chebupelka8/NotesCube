@@ -1,15 +1,14 @@
-from database import AbstractDataBase
-from fastapi import HTTPException
+from database import DataBase
 
 from typing import Union, NoReturn
 
 from schemas import NoteData, NoteScheme
 from models import NoteModel
 
-from core import Converter, require_return_else_HTTPException 
+from core import require_return_else_HTTPException 
 
 
-class NotesRepository(AbstractDataBase):
+class NotesRepository(DataBase):
 
     @classmethod
     async def add_note(cls, note: NoteData) -> NoteScheme:
@@ -23,6 +22,8 @@ class NotesRepository(AbstractDataBase):
             result = await cls.remove_something_orm(target)
             return NoteScheme(**result)
     
-    
-
-        
+    @classmethod
+    @require_return_else_HTTPException("Note not found.")
+    async def get_note_by_id_as_scheme(cls, note_id: int) -> Union[NoReturn, NoteScheme]:  # type: ignore
+        if (returning := await cls.get_by_id_as_scheme(NoteModel, note_id, NoteScheme)):
+            return returning

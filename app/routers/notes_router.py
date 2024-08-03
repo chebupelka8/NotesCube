@@ -27,9 +27,14 @@ async def create_note(note: Annotated[NoteData, Depends()]):
 
 @router.delete("/delete")
 async def delete_note(note_id: pydantic_types.id_range):
-    await NotesRepository.remove_note_by_id(note_id)
+    deleted = await NotesRepository.remove_note_by_id(note_id)
+
+    return {
+        "status": 200,
+        "deleted": deleted
+    }
 
 
 @router.get("/{id}")
 async def get_note_by_id(id: pydantic_types.id_range):
-   return await NotesRepository.get_by_id_as_scheme(NoteModel, id, NoteScheme)
+   return await NotesRepository.get_note_by_id_as_scheme(id)

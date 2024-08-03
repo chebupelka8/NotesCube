@@ -11,7 +11,6 @@ def require_return(error: BaseException):
 
         @wraps(func)
         async def wrapper(*args, **kwargs) -> Any:
-            """asdfjasldf"""
             if (returing := await func(*args, **kwargs)) is None:
                 raise error
             
