@@ -3,8 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from repositories import NotesRepository
 
-from schemas import NoteData, NoteScheme
-from models import NoteModel
+from schemas import NoteData
 
 from core.reused_types import pydantic_types
 
@@ -33,6 +32,11 @@ async def delete_note(note_id: pydantic_types.id_range):
         "status": 200,
         "deleted": deleted
     }
+
+
+@router.post("/search")
+async def search_note(query: str):
+    ...
 
 
 @router.get("/{id}")

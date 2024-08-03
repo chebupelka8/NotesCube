@@ -5,7 +5,6 @@ from typing import Annotated
 from schemas import UserData
 from repositories import UsersRepository
 from core.reused_types import pydantic_types 
-from core import Converter
 
 
 router = APIRouter(

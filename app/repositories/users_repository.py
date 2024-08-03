@@ -1,7 +1,7 @@
 from database import DataBase
 from fastapi import HTTPException
 
-from typing import Optional, Union, NoReturn
+from typing import Union, NoReturn
 from sqlalchemy import select, or_
 
 from models import UserModel
