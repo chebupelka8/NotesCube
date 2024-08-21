@@ -6,7 +6,7 @@ from core import DATABASE_URL
 
 
 class AbstractDataBase:
-    engine = create_async_engine(DATABASE_URL, echo=True) # type: ignore
+    engine = create_async_engine(DATABASE_URL, echo=False) # type: ignore
     session = async_sessionmaker(engine)
 
     @classmethod
