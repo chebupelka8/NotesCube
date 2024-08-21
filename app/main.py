@@ -12,7 +12,8 @@ from routers import users_router, notes_router
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     await AbstractDataBase.create_all_tables()
-    await FakeFillDB.add_fake_users(1000)
+    await FakeFillDB.add_fake_users(10_000)
+    await FakeFillDB.add_fake_notes(8_000)
     yield
     
 

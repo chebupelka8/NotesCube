@@ -49,6 +49,7 @@ async def search_user(query: str):
 
     return {
         "status": 200,
+        "total": len(found),
         "found": found
     }
 
